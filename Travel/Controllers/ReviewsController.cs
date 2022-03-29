@@ -36,6 +36,9 @@ namespace Travel.Controllers
     public async Task<ActionResult<Review>> Post(Review review)
     {
       _db.Reviews.Add(review);
+      Destination destination = _db.Destinations.FirstOrDefault(a => a.DestinationId == review.DestinationId);
+      destination.FindAverage();
+      _db.Entry(destination).State = EntityState.Modified;
       await _db.SaveChangesAsync();
 
       return CreatedAtAction(nameof(GetReview), new { id = review.ReviewId}, review);

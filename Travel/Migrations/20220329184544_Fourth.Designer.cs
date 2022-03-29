@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travel.Models;
 
 namespace Travel.Migrations
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20220329184544_Fourth")]
+    partial class Fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,8 +25,8 @@ namespace Travel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<double>("AverageRating")
-                        .HasColumnType("double");
+                    b.Property<int>("AverageRating")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

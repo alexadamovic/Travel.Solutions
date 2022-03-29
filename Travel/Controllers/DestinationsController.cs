@@ -19,19 +19,34 @@ namespace Travel.Controllers
 
     //GET api/destinations
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Destination>>> Get(int mostReviews)
+    public async Task<ActionResult<IEnumerable<Destination>>> Get(string mostReviews, string country, string highestOverallRating)
     {
       var query = _db.Destinations
         .Include(a => a.Reviews)
         .AsQueryable();
 
-        if (mostReviews > 0)
+        if (highestOverallRating == "yes")
         {
-          query = query.Count(Reviews).Sort();
+          // foreach (Destination destination in query)
+          // {
+          //   destination.FindAverage();
+          // }
+          query = query.OrderByDescending(a => a.AverageRating);
         }
 
-      return await query.ToListAsync();
+        if (mostReviews == "yes") //if the destination reviews are >0
+        {
+          query = query.OrderByDescending(a => a.Reviews.Count()); //sort destinations by most reviews -> least
+        }
+
+        if (country != null)
+        {
+          query = query.Where(a => a.Country == country);
+        }
+
+      return await query.ToListAsync(); // return that list
     }
+    //http://localhost:5000/api/destinations/?mostReviews=yes
 
     //POST api/destinations
     [HttpPost]
